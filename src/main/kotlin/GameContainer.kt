@@ -1,8 +1,12 @@
+import java.awt.event.KeyEvent
 
 class GameContainer : Runnable {
 
     private lateinit var thread: Thread
-    private lateinit var window: Window
+    lateinit var window: Window
+    private lateinit var renderer: Renderer
+    private lateinit var input: Input
+
     private var running = false
     private val UPDATE_CAP = 1.0 / 60.0
     val WIDTH: Int = 800
@@ -12,6 +16,8 @@ class GameContainer : Runnable {
 
     fun start() {
         window = Window(this)
+        renderer = Renderer(this)
+        input = Input(this)
         thread = Thread(this)
         thread.run()
     }
@@ -47,16 +53,17 @@ class GameContainer : Runnable {
                 unprocessedTime -= UPDATE_CAP
                 render = true
 
+                update()
+
                 if (frameTime >= 1.0) {
                     frameTime = 0.0
                     fps = frames
                     frames = 0
                 }
-                println("FPS: $fps")
             }
 
             if (render) {
-                window.update()
+                render()
             } else {
                 try {
                     Thread.sleep(1)
@@ -66,6 +73,15 @@ class GameContainer : Runnable {
             }
         }
         dispose()
+    }
+
+    private fun update() {
+        input.update()
+    }
+
+    private fun render() {
+        renderer.clear()
+        window.update()
     }
 
     private fun dispose(): Unit {

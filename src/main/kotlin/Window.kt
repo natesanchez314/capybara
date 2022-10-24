@@ -8,11 +8,11 @@ import javax.swing.JFrame
 
 class Window(gc: GameContainer) {
 
-    private lateinit var frame: JFrame
-    private lateinit var image: BufferedImage
-    private lateinit var canvas: Canvas
-    private lateinit var bs: BufferStrategy
-    private lateinit var gfx: Graphics
+    var frame: JFrame
+    var image: BufferedImage
+    var canvas: Canvas
+    private var bs: BufferStrategy
+    private var gfx: Graphics
 
     init {
         image = BufferedImage(gc.WIDTH, gc.HEIGHT, BufferedImage.TYPE_INT_RGB)
